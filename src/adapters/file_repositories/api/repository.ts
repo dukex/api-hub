@@ -15,7 +15,7 @@ export class FileAPIRepository implements APIRepository {
 
   private async initialize(): Promise<void> {
     if (this.initialized) return;
-    await fs.mkdir(path.dirname(this.apiDataPath), { recursive: true });
+
     try {
       const data = await fs.readFile(this.apiDataPath, "utf-8");
       const rawApis = JSON.parse(data) as Record<string, any>;
@@ -37,7 +37,6 @@ export class FileAPIRepository implements APIRepository {
   }
 
   private async saveData(): Promise<void> {
-    await fs.writeFile(this.apiDataPath, JSON.stringify(this.apis, null, 2));
   }
 
   async findAll(filters?: { name?: string }): Promise<API[]> {
