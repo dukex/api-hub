@@ -1,20 +1,11 @@
 {
-  "petstore-api": {
-    "id": "petstore-api",
-    "name": "Swagger Petstore",
-    "team": "Swagger IO",
+  "caju-emaployee": {
+    "id": "caju-emaployee",
+    "name": "Caju Employee Service",
+    "team": "Cadastro do Calaboradores",
     "description": "This is a sample server Petstore server. You can find out more about Swagger at http://swagger.io or on irc.freenode.net, #swagger. For this sample, you can use the api key `special-key` to test the authorization filters.",
-    "documentationUrl": "/api-specs/petstore.json",
+    "documentationUrl": "https://fictional-adventure-jn87n4o.pages.github.io/specs/employee-service.yaml",
     "createdAt": "2024-07-29T10:00:00.000Z",
     "updatedAt": "2024-07-29T10:00:00.000Z"
-  },
-  "user-service-api": {
-    "id": "user-service-api",
-    "name": "User Service API",
-    "team": "Core Platform Team",
-    "description": "Manages user accounts, authentication, and profiles.",
-    "documentationUrl": "https://petstore3.swagger.io/api/v3/openapi.json",
-    "createdAt": "2024-07-28T12:30:00.000Z",
-    "updatedAt": "2024-07-29T11:15:00.000Z"
   }
 }

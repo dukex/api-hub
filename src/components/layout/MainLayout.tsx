@@ -14,7 +14,6 @@ export default function MainLayout({ children }: MainLayoutProps) {
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <div className="flex flex-1 container mx-auto px-0 sm:px-4 py-4">
-        <Sidebar />
         <main className="flex-1 p-4 sm:p-6 ml-0 sm:ml-4 bg-card rounded-lg shadow-sm overflow-auto">
           {children}
         </main>

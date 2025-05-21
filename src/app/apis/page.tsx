@@ -21,14 +21,17 @@ export default async function ApiListPage({ searchParams }: ApiListPageProps) {
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">API Repository</h1>
-        <p className="text-muted-foreground mt-1">Discover and explore available APIs.</p>
+      <header className='flex justify-between items-center mb-6 p-4'>
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">API Repository</h1>
+          <p className="text-muted-foreground mt-1">Discover and explore available APIs.</p>
+        </div>
+        <Suspense fallback={<div className="text-muted-foreground">Loading search...</div>}>
+          <ApiSearch />
+        </Suspense>
       </header>
       
-      <Suspense fallback={<div className="text-muted-foreground">Loading search...</div>}>
-        <ApiSearch />
-      </Suspense>
+
       
       <Suspense fallback={<div className="text-muted-foreground">Loading APIs...</div>}>
         <ApiList apis={apis} />

@@ -7,7 +7,7 @@ export default function Header() {
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 text-primary hover:text-primary/90 transition-colors">
           <Aperture className="h-8 w-8" />
-          <h1 className="text-2xl font-semibold">API Hub</h1>
+          <h1 className="text-2xl font-semibold">Caju API Hub</h1>
         </Link>
         <nav className="flex items-center gap-4">
           {/* Future navigation links can go here */}
