@@ -1,0 +1,30 @@
+{
+  "openpolicy": {
+    "id": "openpolicy",
+    "name": "OpenPolicy",
+    "team": "OpenPolicy",
+    "description": "OpenPolicy is a policy engine for cloud-native applications.",
+    "documentationUrl": "https://api.apis.guru/v2/specs/openpolicy.local/0.28.0/openapi.yaml"
+  },
+  "adyen-checkout": {
+    "id": "adyen-checkout",
+    "name": "Adyen Checkout",
+    "team": "Adyen",
+    "description": "Adyen Checkout is a payment gateway for online businesses.",
+    "documentationUrl": "https://api.apis.guru/v2/specs/adyen.com/checkout-api/1.0.0/openapi.yaml"
+  },
+  "adyen-payout": {
+    "id": "adyen-payout",
+    "name": "Adyen Payout",
+    "team": "Adyen",
+    "description": "Adyen Payout is a payment gateway for online businesses.",
+    "documentationUrl": "https://api.apis.guru/v2/specs/adyen.com/payout-api/1.0.0/openapi.yaml"
+  },
+  "adyen-risk": {
+    "id": "adyen-risk",
+    "name": "Adyen Risk",
+    "team": "Adyen",
+    "description": "Adyen Risk is a risk management system for online businesses.",
+    "documentationUrl": "https://api.apis.guru/v2/specs/adyen.com/risk-api/1.0.0/openapi.yaml"
+  }
+}

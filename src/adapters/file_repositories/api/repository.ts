@@ -1,0 +1,162 @@
+import { promises as fs } from "fs";
+import path from "path";
+import { v4 as uuidv4 } from "uuid";
+import type { API, CreateAPIDTO, UpdateAPIDTO } from "@/domain/api/entity";
+import type { APIRepository } from "@/domain/api/repository";
+
+export class FileAPIRepository implements APIRepository {
+  private apiDataPath: string;
+  private apis: Record<string, API> = {};
+  private initialized = false;
+
+  constructor(apiDataPath = path.join(process.cwd(), "data", "apis.json")) {
+    this.apiDataPath = apiDataPath;
+  }
+
+  private async initialize(): Promise<void> {
+    if (this.initialized) return;
+    await fs.mkdir(path.dirname(this.apiDataPath), { recursive: true });
+    try {
+      const data = await fs.readFile(this.apiDataPath, "utf-8");
+      const rawApis = JSON.parse(data) as Record<string, any>;
+      this.apis = {};
+      for (const id in rawApis) {
+        const api = rawApis[id];
+        this.apis[id] = {
+          ...api,
+          createdAt: api.createdAt ? new Date(api.createdAt) : undefined,
+          updatedAt: api.updatedAt ? new Date(api.updatedAt) : undefined,
+        };
+      }
+    } catch (error) {
+      this.apis = {};
+      await this.saveData();
+    }
+
+    this.initialized = true;
+  }
+
+  private async saveData(): Promise<void> {
+    await fs.writeFile(this.apiDataPath, JSON.stringify(this.apis, null, 2));
+  }
+
+  async findAll(filters?: { name?: string }): Promise<API[]> {
+    await this.initialize();
+    let apis = Object.values(this.apis);
+
+    if (filters?.name) {
+      apis = apis.filter((api) =>
+        api.name.toLowerCase().includes(filters.name!.toLowerCase()),
+      );
+    }
+
+    return apis;
+  }
+
+  async findById(id: string): Promise<API | null> {
+    await this.initialize();
+    return this.apis[id] || null;
+  }
+
+  async create(apiData: CreateAPIDTO): Promise<API> {
+    await this.initialize();
+
+    const id = uuidv4();
+    const now = new Date();
+
+    const api: API = {
+      ...apiData,
+      id,
+      createdAt: now,
+      updatedAt: now,
+    };
+
+    this.apis[id] = api;
+    await this.saveData();
+
+    return api;
+  }
+
+  /**
+   * Updates an existing API in the repository
+   */
+  async update(id: string, data: UpdateAPIDTO): Promise<API | null> {
+    await this.initialize();
+
+    if (!this.apis[id]) return null;
+
+    this.apis[id] = {
+      ...this.apis[id],
+      ...data,
+      updatedAt: new Date(),
+    };
+
+    await this.saveData();
+    return this.apis[id];
+  }
+
+  /**
+   * Deletes an API from the repository
+   */
+  async delete(id: string): Promise<boolean> {
+    await this.initialize();
+
+    if (!this.apis[id]) return false;
+
+    delete this.apis[id];
+    await this.saveData();
+
+    return true;
+  }
+
+  /**
+   * Retrieves the API specification document.
+   * If documentationUrl starts with '/', it's treated as a local path relative to `public`.
+   * Example: `/api-specs/petstore.json` -> `public/api-specs/petstore.json`.
+   * If it's an external URL, it returns the URL string.
+   */
+  async getSpecification(id: string): Promise<string | null> {
+    await this.initialize();
+
+    const api = this.apis[id];
+    if (!api) return null;
+
+    try {
+      // Handle local files relative to public directory
+      if (api.documentationUrl.startsWith("/")) {
+        // Ensure documentationUrl correctly points within this.specDirectory, e.g. /api-specs/file.json
+        const filePath = path.join(
+          process.cwd(),
+          "public",
+          api.documentationUrl,
+        );
+        return await fs.readFile(filePath, "utf-8");
+      }
+
+      // Handle external URLs by returning the URL directly
+      // The service/frontend will handle fetching from this URL
+      if (
+        api.documentationUrl.startsWith("http://") ||
+        api.documentationUrl.startsWith("https://")
+      ) {
+        return api.documentationUrl;
+      }
+
+      // If it's not an absolute path or a URL, assume it's a file name within the specDirectory
+      // This part might need refinement based on how documentationUrl is structured for non-URL, non-absolute paths
+      const fallbackFilePath = path.join(
+        process.cwd(),
+        "public",
+        this.specDirectory,
+        api.documentationUrl,
+      );
+      return await fs.readFile(fallbackFilePath, "utf-8");
+    } catch (error) {
+      console.error(
+        `Error reading API specification for ${id} (URL: ${api.documentationUrl}):`,
+        error,
+      );
+      return null;
+    }
+  }
+}
