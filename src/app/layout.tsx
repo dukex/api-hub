@@ -18,8 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className={`antialiased font-sans`}>
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} `}>
+      <body className={`antialiased font-sans overflow-y-scroll`}>
         <MainLayout>{children}</MainLayout>
       </body>
     </html>

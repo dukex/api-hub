@@ -8,10 +8,20 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-import { Users, FileText, Info, CalendarDays } from "lucide-react";
+import {
+  Users,
+  FileText,
+  Info,
+  CalendarDays,
+  BookMarked,
+  Home,
+  ArrowRight,
+} from "lucide-react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { load } from "js-yaml";
 
 type ApiDetailPageProps = {
   params: Promise<{ id: string }>;
@@ -19,27 +29,70 @@ type ApiDetailPageProps = {
 
 async function fetchSummaryAction(apiId: string): Promise<string | null> {
   "use server";
+
   return apiServiceInstance.summarizeApiSpecification(apiId);
+}
+
+async function fetchApiDetails(apiId: string) {
+  "use server";
+
+  return await apiServiceInstance.getApiById(apiId);
 }
 
 export default async function ApiDetailPage({ params }: ApiDetailPageProps) {
   const { id } = await params;
-  const api = await apiServiceInstance.getApiById(id);
+  const api = await fetchApiDetails(id);
 
   if (!api) {
     notFound();
   }
 
+  const specContent = await apiServiceInstance.getApiSpecification(id);
+  console.log("Fetched OpenAPI Spec:", specContent);
+
+  const spec: {
+    title?: string | undefined;
+    version?: string | undefined;
+    description?: string | undefined;
+    contactName?: string | undefined;
+    contactEmail?: string | undefined;
+    contactUrl?: string | undefined;
+    tags?: Array<{ name: string; description?: string }> | undefined;
+  } = {};
+
+  if (specContent) {
+    try {
+      const parsedSpec: any = load(specContent as string);
+
+      spec.title = parsedSpec?.info?.title;
+      spec.version = parsedSpec?.info?.version;
+      spec.description = parsedSpec?.info?.description;
+      spec.contactName = parsedSpec?.info?.contact?.name;
+      spec.contactEmail = parsedSpec?.info?.contact?.email;
+      spec.contactUrl = parsedSpec?.info?.contact?.url;
+      spec.tags = parsedSpec?.tags;
+    } catch (error) {
+      console.error("Failed to parse OpenAPI specification:", error);
+    }
+  } else {
+    console.log("Spec content is empty, skipping parsing.");
+  }
+
   return (
     <div className="">
-      <Link
-        href="/apis"
-        className="inline-flex items-center gap-2 text-sm text-primary hover:underline "
-      >
-        <ArrowLeft className="h-4 w-4" />
-        Back to API List
-      </Link>
+      <div className="flex items-center gap-2 mb-4">
+        <Link
+          href="/apis"
+          className="inline-flex items-center gap-2 text-sm text-primary hover:underline "
+        >
+          <Home className="h-4 w-4" />
+          APIs
+        </Link>
 
+        <ArrowRight className="h-4 w-4" />
+
+        <p className="inline-flex items-center gap-2 text-sm  ">{api.name}</p>
+      </div>
       <header className="pb-8">
         <h1 className="text-4xl font-bold tracking-tight text-foreground">
           {api.name}
@@ -59,10 +112,18 @@ export default async function ApiDetailPage({ params }: ApiDetailPageProps) {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3 text-sm">
-              {api.description && (
+              {spec.title && (
+                <div>
+                  <h3 className="font-semibold text-foreground">Title</h3>
+                  <p className="text-muted-foreground">{spec.title}</p>
+                </div>
+              )}
+              {(api.description || spec.description) && (
                 <div>
                   <h3 className="font-semibold text-foreground">Description</h3>
-                  <p className="text-muted-foreground">{api.description}</p>
+                  <p className="text-muted-foreground">
+                    {spec.description || api.description}
+                  </p>
                 </div>
               )}
               <div>
@@ -84,6 +145,60 @@ export default async function ApiDetailPage({ params }: ApiDetailPageProps) {
                   </p>
                 )}
               </div>
+              {(spec.contactName || spec.contactEmail || spec.contactUrl) && (
+                <div>
+                  <h3 className="font-semibold text-foreground mt-2">
+                    Contact
+                  </h3>
+                  {spec.contactName && (
+                    <p className="text-muted-foreground">
+                      <strong>Name:</strong> {spec.contactName}
+                    </p>
+                  )}
+                  {spec.contactEmail && (
+                    <p className="text-muted-foreground">
+                      <strong>Email:</strong>{" "}
+                      <a
+                        href={`mailto:${spec.contactEmail}`}
+                        className="text-accent hover:underline"
+                      >
+                        {spec.contactEmail}
+                      </a>
+                    </p>
+                  )}
+                  {spec.contactUrl && (
+                    <p className="text-muted-foreground">
+                      <strong>URL:</strong>{" "}
+                      <a
+                        href={spec.contactUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-accent hover:underline break-all"
+                      >
+                        {spec.contactUrl}
+                      </a>
+                    </p>
+                  )}
+                </div>
+              )}
+              {spec.tags && spec.tags.length > 0 && (
+                <div>
+                  <h3 className="font-semibold text-foreground mt-2">Tags</h3>
+
+                  {spec.tags.map(
+                    (tag) =>
+                      tag.description && (
+                        <div key={`${tag.name}-desc`} className="mt-2">
+                          <p className="text-muted-foreground">
+                            <Badge variant="secondary">{tag.name}</Badge>:{" "}
+                            {tag.description}
+                          </p>
+                        </div>
+                      )
+                  )}
+                </div>
+              )}
+
               {api.createdAt && (
                 <div className="flex items-center gap-2">
                   <CalendarDays className="h-4 w-4 text-muted-foreground" />
