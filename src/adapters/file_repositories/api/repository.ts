@@ -29,6 +29,10 @@ export class FileAPIRepository implements APIRepository {
         };
       }
     } catch (error) {
+      console.error(
+        `Error reading API data from ${this.apiDataPath}:`,
+        error,
+      );
       this.apis = {};
       await this.saveData();
     }

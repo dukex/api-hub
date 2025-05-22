@@ -10,6 +10,7 @@ type ApiListPageProps = {
 };
 
 async function fetchApis(name?: string) {
+  "use server";
   return apiServiceInstance.getAllApis({ name });
 }
 
