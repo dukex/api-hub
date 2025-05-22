@@ -80,14 +80,19 @@ export default async function ApiDetailPage({ params }: ApiDetailPageProps) {
 
   return (
     <div className="">
-      <Link
-        href="/apis"
-        className="inline-flex items-center gap-2 text-sm text-primary hover:underline "
-      >
-        <ArrowLeft className="h-4 w-4" />
-        Back to API List
-      </Link>
+      <div className="flex items-center gap-2 mb-4">
+        <Link
+          href="/apis"
+          className="inline-flex items-center gap-2 text-sm text-primary hover:underline "
+        >
+          <Home className="h-4 w-4" />
+          APIs
+        </Link>
 
+        <ArrowRight className="h-4 w-4" />
+
+        <p className="inline-flex items-center gap-2 text-sm  ">{api.name}</p>
+      </div>
       <header className="pb-8">
         <h1 className="text-4xl font-bold tracking-tight text-foreground">
           {api.name}
