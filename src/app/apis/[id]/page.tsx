@@ -48,7 +48,6 @@ export default async function ApiDetailPage({ params }: ApiDetailPageProps) {
   }
 
   const specContent = await apiServiceInstance.getApiSpecification(id);
-  console.log("Fetched OpenAPI Spec:", specContent);
 
   const spec: {
     title?: string | undefined;

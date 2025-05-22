@@ -18,6 +18,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  logging: {
+    fetches: {
+      fullUrl: true,
+      hmrRefreshes: true,
+    },
+    incomingRequests: {
+      ignore: [/\/health/],
+    },
+  },
 };
 
 export default nextConfig;
