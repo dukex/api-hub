@@ -65,13 +65,4 @@ export default async function ApiDetailPage({ params }: ApiDetailPageProps) {
   );
 }
 
-export async function generateStaticParams() {
-  // This is optional for dynamic pages but good for build-time generation if APIs are mostly static
-  // For a file-based repo, this is feasible.
-  const apis = await apiServiceInstance.getAllApis();
-  return apis.map((api) => ({
-    id: api.id,
-  }));
-}
-// Revalidate data at most every hour or on demand if using tags
 export const revalidate = 3600;

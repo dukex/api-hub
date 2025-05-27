@@ -244,11 +244,4 @@ export default async function ApiDetailPage({ params }: ApiDetailPageProps) {
   );
 }
 
-export async function generateStaticParams() {
-  const apis = await apiServiceInstance.getAllApis();
-  return apis.map((api) => ({
-    id: api.id,
-  }));
-}
-
 export const revalidate = 3600;
