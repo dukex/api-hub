@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-import Sidebar from "./Sidebar";
 import { Toaster } from "@/components/ui/toaster";
 
 type MainLayoutProps = {

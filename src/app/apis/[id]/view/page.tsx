@@ -1,9 +1,8 @@
 import { notFound } from "next/navigation";
 import { apiServiceInstance } from "@/lib/api-repository";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Home } from "lucide-react";
+import { ArrowRight, Home } from "lucide-react";
 import APIViewWrapper from "@/components/apis/APIViewWrapper";
-import Head from "next/head";
 import Script from "next/script";
 
 type ApiDetailPageProps = {

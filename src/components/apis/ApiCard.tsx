@@ -9,7 +9,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, Tag, Info, ArrowRight } from "lucide-react";
+import { Users, ArrowRight } from "lucide-react";
 
 type ApiCardProps = {
   api: API;

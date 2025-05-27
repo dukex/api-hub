@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Home, LayoutList, Settings } from "lucide-react"; // Assuming Settings for future use
+import { Home, LayoutList } from "lucide-react";
 
 export default function Sidebar() {
   const navItems = [
