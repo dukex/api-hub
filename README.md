@@ -89,15 +89,6 @@ export GEMINI_API_KEY=your_gemini_api_key_here
 - **Accent**: Orange (#FF9800) for interactive elements
 - **Typography**: Clean sans-serif for professional accessibility
 
-| |
-|-|
-|![image](https://github.com/user-attachments/assets/66a790aa-8333-4c3e-8d98-f4dce978fb60) |
-|![image](https://github.com/user-attachments/assets/eff85fe4-bb92-46fc-8660-21de11010021) |
-|![image](https://github.com/user-attachments/assets/82733dc2-7f35-4aac-ac63-419053631571) |
-|![image](https://github.com/user-attachments/assets/b0d7f35d-9541-4874-83f8-410dbea2dc91) |
-
-
-
 
 ## 📄 License
 
