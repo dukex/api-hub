@@ -10,6 +10,13 @@
 - **🤖 AI-Powered Summaries**: Automatic API summaries using generative AI
 - **🎨 Modern UI**: Clean, professional interface with intuitive navigation
 
+| Screenshot | |
+|-|-|
+|![image](https://github.com/user-attachments/assets/66a790aa-8333-4c3e-8d98-f4dce978fb60) | Listing your APIs |
+|![image](https://github.com/user-attachments/assets/a974e898-4da1-47d8-b29a-9e1fa777a652) | See API details with userful information about the API |
+|![image](https://github.com/user-attachments/assets/82733dc2-7f35-4aac-ac63-419053631571) | Get the complete API documentation using only OpenAPI spec |
+
+
 ## 🚀 Quick Start
 
 1. **Clone and install**:
