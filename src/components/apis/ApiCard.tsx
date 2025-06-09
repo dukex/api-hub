@@ -45,7 +45,7 @@ export default function ApiCard({ api }: ApiCardProps) {
         </div>
       </CardContent>
       <CardFooter>
-        <Link href={`/apis/${api.id}`} legacyBehavior passHref>
+        <Link href={`/apis/${api.id}`} passHref>
           <Button variant="outline" className="w-full group">
             View Details
             <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />

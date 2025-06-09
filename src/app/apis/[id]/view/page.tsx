@@ -9,11 +9,6 @@ type ApiDetailPageProps = {
   params: Promise<{ id: string }>;
 };
 
-async function fetchSummaryAction(apiId: string): Promise<string | null> {
-  "use server";
-  return apiServiceInstance.summarizeApiSpecification(apiId);
-}
-
 export default async function ApiDetailPage({ params }: ApiDetailPageProps) {
   const { id } = await params;
   const api = await apiServiceInstance.getApiById(id);
@@ -23,9 +18,6 @@ export default async function ApiDetailPage({ params }: ApiDetailPageProps) {
   }
 
   const spec = await apiServiceInstance.getApiSpecification(id);
-
-  // Fetch initial summary on server if desired, or let client component fetch.
-  // const initialSummary = await apiServiceInstance.summarizeApiSpecification(id);
 
   return (
     <div>
@@ -65,4 +57,4 @@ export default async function ApiDetailPage({ params }: ApiDetailPageProps) {
   );
 }
 
-export const revalidate = 3600;
+export const revalidate = 0;
