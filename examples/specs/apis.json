@@ -11,20 +11,13 @@
     "name": "Adyen Checkout",
     "team": "Adyen",
     "description": "Adyen Checkout is a payment gateway for online businesses.",
-    "documentationUrl": "https://api.apis.guru/v2/specs/adyen.com/checkout-api/1.0.0/openapi.yaml"
+    "documentationUrl": "https://raw.githubusercontent.com/Adyen/adyen-openapi/refs/heads/main/yaml/CheckoutService-v71.yaml"
   },
   "adyen-payout": {
     "id": "adyen-payout",
     "name": "Adyen Payout",
     "team": "Adyen",
     "description": "Adyen Payout is a payment gateway for online businesses.",
-    "documentationUrl": "https://api.apis.guru/v2/specs/adyen.com/payout-api/1.0.0/openapi.yaml"
-  },
-  "adyen-risk": {
-    "id": "adyen-risk",
-    "name": "Adyen Risk",
-    "team": "Adyen",
-    "description": "Adyen Risk is a risk management system for online businesses.",
-    "documentationUrl": "https://api.apis.guru/v2/specs/adyen.com/risk-api/1.0.0/openapi.yaml"
+    "documentationUrl": "https://raw.githubusercontent.com/Adyen/adyen-openapi/refs/heads/main/yaml/PayoutService-v68.yaml"
   }
 }
