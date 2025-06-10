@@ -29,10 +29,7 @@ export class FileAPIRepository implements APIRepository {
         };
       }
     } catch (error) {
-      console.error(
-        `Error reading API data from ${this.apiDataPath}:`,
-        error,
-      );
+      console.error(`Error reading API data from ${this.apiDataPath}:`, error);
       this.apis = {};
       await this.saveData();
     }
@@ -40,18 +37,39 @@ export class FileAPIRepository implements APIRepository {
     this.initialized = true;
   }
 
-  private async saveData(): Promise<void> {
-  }
+  private async saveData(): Promise<void> {}
 
-  async findAll(filters?: { name?: string }): Promise<API[]> {
+  async findAll(filters: {
+    query: { name?: string };
+    order: {
+      by: "name" | "team";
+      order: "asc" | "desc";
+    };
+  }): Promise<API[]> {
     await this.initialize();
     let apis = Object.values(this.apis);
 
-    if (filters?.name) {
+    if (filters?.query.name) {
       apis = apis.filter((api) =>
-        api.name.toLowerCase().includes(filters.name!.toLowerCase()),
+        api.name.toLowerCase().includes(filters.query.name!.toLowerCase())
       );
     }
+
+    apis.sort((a, b) => {
+      if (filters.order.by === "name") {
+        return filters.order.order === "asc"
+          ? a.name.localeCompare(b.name)
+          : b.name.localeCompare(a.name);
+      }
+
+      if (filters.order.by === "team") {
+        return filters.order.order === "asc"
+          ? a.team.localeCompare(b.team)
+          : b.team.localeCompare(a.team);
+      }
+
+      return 0;
+    });
 
     return apis;
   }
@@ -131,7 +149,7 @@ export class FileAPIRepository implements APIRepository {
         const filePath = path.join(
           process.cwd(),
           "public",
-          api.documentationUrl,
+          api.documentationUrl
         );
         return await fs.readFile(filePath, "utf-8");
       }
@@ -151,13 +169,13 @@ export class FileAPIRepository implements APIRepository {
         process.cwd(),
         "public",
         this.specDirectory,
-        api.documentationUrl,
+        api.documentationUrl
       );
       return await fs.readFile(fallbackFilePath, "utf-8");
     } catch (error) {
       console.error(
         `Error reading API specification for ${id} (URL: ${api.documentationUrl}):`,
-        error,
+        error
       );
       return null;
     }

@@ -1,7 +1,10 @@
 import type { API, CreateAPIDTO, UpdateAPIDTO } from "./entity";
 
 export interface APIRepository {
-  findAll(filters?: { name?: string }): Promise<API[]>;
+  findAll(filters: {
+    query: { name?: string };
+    order: { by: string; order: "asc" | "desc" };
+  }): Promise<API[]>;
 
   findById(id: string): Promise<API | null>;
 

@@ -7,17 +7,24 @@ import { Home } from "lucide-react";
 type ApiListPageProps = {
   searchParams?: Promise<{
     name?: string;
+    orderBy?: string;
   }>;
 };
 
-async function fetchApis(name?: string) {
+async function fetchApis(name?: string, orderBy?: string) {
   "use server";
-  return apiServiceInstance.getAllApis({ name });
+  const [by, order] = orderBy?.split(" ") || ["team", "asc"];
+
+  return apiServiceInstance.getAllApis({
+    query: { name },
+    order: { by, order: order === "asc" ? "asc" : "desc" },
+  });
 }
 
 export default async function ApiListPage({ searchParams }: ApiListPageProps) {
-  const name = (await searchParams)?.name;
-  const apis = await fetchApis(name);
+  const params = await searchParams;
+  const { name, orderBy } = params || {};
+  const apis = await fetchApis(name, orderBy);
 
   return (
     <div className="space-y-6">

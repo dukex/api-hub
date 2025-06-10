@@ -5,7 +5,10 @@ import { summarizeApi as genAISummarizeApi } from "@/ai/flows/summarize-api";
 export class ApiService {
   constructor(private apiRepository: APIRepository) {}
 
-  async getAllApis(filters?: { name?: string }): Promise<API[]> {
+  async getAllApis(filters: {
+    query: { name?: string };
+    order: { by: string; order: "asc" | "desc" };
+  }): Promise<API[]> {
     return this.apiRepository.findAll(filters);
   }
 
@@ -40,7 +43,7 @@ export class ApiService {
         const response = await fetch(specOrUrl);
         if (!response.ok) {
           console.error(
-            `Failed to fetch spec from URL ${specOrUrl}: ${response.statusText}`,
+            `Failed to fetch spec from URL ${specOrUrl}: ${response.statusText}`
           );
           return null;
         }
