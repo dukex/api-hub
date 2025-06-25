@@ -1,4 +1,21 @@
 /**
+ * Represents documentation for an API
+ */
+export interface APIDocumentation {
+  /** URL to the documentation file */
+  url: string;
+
+  /** Human-readable name of the documentation */
+  name: string;
+
+  /** Description of what this documentation covers */
+  description: string;
+
+  /** Provider of the documentation (currently only 'github' supported) */
+  provider: 'github';
+}
+
+/**
  * Represents an API within the repository
  */
 export interface API {
@@ -13,6 +30,7 @@ export interface API {
 
   /** URL pointing to OpenAPI specification (can be local file path relative to public/ or external URL) */
   documentationUrl: string;
+  openAPIUrl: string;
 
   /** Optional description of the API */
   description?: string;
@@ -22,6 +40,9 @@ export interface API {
 
   /** Last updated timestamp */
   updatedAt?: Date;
+
+  /** Array of documentation links for this API */
+  docs?: APIDocumentation[];
 }
 
 /**

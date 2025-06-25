@@ -27,7 +27,7 @@
    ```
 
 2. **Configure your APIs**:
-   Edit `examples/specs/apis.json` to add your OpenAPI specifications:
+   Create `data/apis.json` to add your OpenAPI specifications:
    ```json
    {
      "your-api": {
@@ -35,37 +35,39 @@
        "name": "Your API Name",
        "team": "Your Team",
        "description": "Brief description of your API",
-       "documentationUrl": "https://your-api.com/openapi.yaml"
+       "openAPIUrl": "https://your-api.com/openapi.yaml"
      }
    }
    ```
+
+
 
 3. **Start the development server**:
    ```bash
    npm run dev
    ```
 
-4. **Visit your portal**: Open [http://localhost:9092](http://localhost:9092)
+4. **Visit your portal**: Open [http://localhost:3000](http://localhost:3000)
 
 ## 🐳 Docker Usage
 
 You can also run API Hub using Docker:
 
 ```bash
-docker run -p 3000:3000 -v ./specs:/app/data docker.io/dukex/api-hub
+docker run -p 3000:3000 -v ./examples/specs:/app/data docker.io/dukex/api-hub
 ```
 
-This mounts your local `specs` directory containing your `apis.json` configuration file to the container.
+This mounts your local `./examples/specs` directory containing your `apis.json` configuration file to the container.
 
 ## 📝 Configuration
 
-APIs are configured in `examples/specs/apis.json`. Each API entry requires:
+APIs are configured in `./data/apis.json`. Each API entry requires:
 
 - `id`: Unique identifier
 - `name`: Display name
 - `team`: Team or organization name
 - `description`: Brief description
-- `documentationUrl`: URL to your OpenAPI/Swagger specification
+- `openAPIUrl`: URL to your OpenAPI/Swagger specification
 
 ## 🛠️ Development
 
@@ -81,6 +83,46 @@ The portal includes AI-powered API summarization powered by Google AI. To enable
 ```bash
 export GEMINI_API_KEY=your_gemini_api_key_here
 ```
+
+## 📚 Documentation Features
+
+API Hub supports additional documentation from GitHub repositories. Each API can have multiple documentation links that are fetched and rendered as markdown. To enable GitHub documentation features, set the `GITHUB_TOKEN` environment variable:
+
+```bash
+export GITHUB_TOKEN=your_github_personal_access_token
+```
+
+### Adding Documentation to APIs
+
+In your `apis.json` configuration, add a `docs` array to any API:
+
+```json
+{
+  "my-api": {
+    "id": "my-api",
+    "name": "My API",
+    "team": "Backend Team",
+    "description": "A sample API",
+    "openAPIUrl": "https://api.example.com/openapi.yaml",
+    "docs": [
+      {
+        "url": "https://github.com/myorg/my-api/blob/main/README.md",
+        "name": "Getting Started",
+        "description": "Complete setup and usage guide",
+        "provider": "github"
+      },
+      {
+        "url": "https://github.com/myorg/my-api/blob/main/docs/advanced.md",
+        "name": "Advanced Usage",
+        "description": "Advanced configuration and examples",
+        "provider": "github"
+      }
+    ]
+  }
+}
+```
+
+Documentation will be available at `/apis/{api-id}/docs/{doc-id}` where `doc-id` is generated from the documentation name.
 
 ## 🎨 Design
 

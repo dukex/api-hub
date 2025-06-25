@@ -1,6 +1,6 @@
 import type { API, CreateAPIDTO, UpdateAPIDTO } from "./entity";
 
-export interface APIRepository {
+export interface APIDataRepository {
   findAll(filters: {
     query: { name?: string };
     order: { by: string; order: "asc" | "desc" };

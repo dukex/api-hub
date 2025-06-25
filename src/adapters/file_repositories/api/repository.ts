@@ -2,9 +2,9 @@ import { promises as fs } from "fs";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
 import type { API, CreateAPIDTO, UpdateAPIDTO } from "@/domain/api/entity";
-import type { APIRepository } from "@/domain/api/repository";
+import type { APIDataRepository } from "@/domain/api/repository";
 
-export class FileAPIRepository implements APIRepository {
+export class FileAPIDataRepository implements APIDataRepository {
   private apiDataPath: string;
   private apis: Record<string, API> = {};
   private initialized = false;
@@ -132,7 +132,7 @@ export class FileAPIRepository implements APIRepository {
 
   /**
    * Retrieves the API specification document.
-   * If documentationUrl starts with '/', it's treated as a local path relative to `public`.
+   * If openAPIUrl starts with '/', it's treated as a local path relative to `public`.
    * Example: `/api-specs/petstore.json` -> `public/api-specs/petstore.json`.
    * If it's an external URL, it returns the URL string.
    */
@@ -144,37 +144,31 @@ export class FileAPIRepository implements APIRepository {
 
     try {
       // Handle local files relative to public directory
-      if (api.documentationUrl.startsWith("/")) {
-        // Ensure documentationUrl correctly points within this.specDirectory, e.g. /api-specs/file.json
-        const filePath = path.join(
-          process.cwd(),
-          "public",
-          api.documentationUrl
-        );
+      if (api.openAPIUrl.startsWith("/")) {
+        // Ensure openAPIUrl correctly points within this.specDirectory, e.g. /api-specs/file.json
+        const filePath = path.join(process.cwd(), "public", api.openAPIUrl);
         return await fs.readFile(filePath, "utf-8");
       }
 
       // Handle external URLs by returning the URL directly
       // The service/frontend will handle fetching from this URL
       if (
-        api.documentationUrl.startsWith("http://") ||
-        api.documentationUrl.startsWith("https://")
+        api.openAPIUrl.startsWith("http://") ||
+        api.openAPIUrl.startsWith("https://")
       ) {
-        return api.documentationUrl;
+        return api.openAPIUrl;
       }
 
-      // If it's not an absolute path or a URL, assume it's a file name within the specDirectory
-      // This part might need refinement based on how documentationUrl is structured for non-URL, non-absolute paths
+      // If it's not an absolute path or a URL, assume it's a file name within the public directory
       const fallbackFilePath = path.join(
         process.cwd(),
         "public",
-        this.specDirectory,
-        api.documentationUrl
+        api.openAPIUrl
       );
       return await fs.readFile(fallbackFilePath, "utf-8");
     } catch (error) {
       console.error(
-        `Error reading API specification for ${id} (URL: ${api.documentationUrl}):`,
+        `Error reading API specification for ${id} (URL: ${api.openAPIUrl}):`,
         error
       );
       return null;

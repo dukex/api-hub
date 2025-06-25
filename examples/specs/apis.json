@@ -4,20 +4,28 @@
     "name": "OpenPolicy",
     "team": "OpenPolicy",
     "description": "OpenPolicy is a policy engine for cloud-native applications.",
-    "documentationUrl": "https://api.apis.guru/v2/specs/openpolicy.local/0.28.0/openapi.yaml"
+    "openAPIUrl": "https://api.apis.guru/v2/specs/openpolicy.local/0.28.0/openapi.yaml",
+    "docs": [
+      {
+        "name": "Changelog",
+        "description": "OpenPolicy changelog",
+        "provider": "github",
+        "url": "https://github.com/open-policy-agent/opa/blob/main/CHANGELOG.md"
+      }
+    ]
   },
   "adyen-checkout": {
     "id": "adyen-checkout",
     "name": "Adyen Checkout",
     "team": "Adyen",
     "description": "Adyen Checkout is a payment gateway for online businesses.",
-    "documentationUrl": "https://raw.githubusercontent.com/Adyen/adyen-openapi/refs/heads/main/yaml/CheckoutService-v71.yaml"
+    "openAPIUrl": "https://raw.githubusercontent.com/Adyen/adyen-openapi/refs/heads/main/yaml/CheckoutService-v71.yaml"
   },
   "adyen-payout": {
     "id": "adyen-payout",
     "name": "Adyen Payout",
     "team": "Adyen",
     "description": "Adyen Payout is a payment gateway for online businesses.",
-    "documentationUrl": "https://raw.githubusercontent.com/Adyen/adyen-openapi/refs/heads/main/yaml/PayoutService-v68.yaml"
+    "openAPIUrl": "https://raw.githubusercontent.com/Adyen/adyen-openapi/refs/heads/main/yaml/PayoutService-v68.yaml"
   }
 }

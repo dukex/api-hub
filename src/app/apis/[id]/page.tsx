@@ -15,6 +15,8 @@ import {
   CalendarDays,
   Home,
   ArrowRight,
+  BookOpen,
+  ExternalLink,
 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -127,18 +129,18 @@ export default async function ApiDetailPage({ params }: ApiDetailPageProps) {
                 <h3 className="font-semibold text-foreground">
                   Documentation URL
                 </h3>
-                {api.documentationUrl.startsWith("http") ? (
+                {api.openAPIUrl.startsWith("http") ? (
                   <a
-                    href={api.documentationUrl}
+                    href={api.openAPIUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-accent hover:underline break-all"
                   >
-                    {api.documentationUrl}
+                    {api.openAPIUrl}
                   </a>
                 ) : (
                   <p className="text-muted-foreground break-all">
-                    {api.documentationUrl} (Local)
+                    {api.openAPIUrl} (Local)
                   </p>
                 )}
               </div>
@@ -238,6 +240,56 @@ export default async function ApiDetailPage({ params }: ApiDetailPageProps) {
               </Link>
             </CardContent>
           </Card>
+
+          {api.docs && api.docs.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <BookOpen className="h-6 w-6 text-primary" />
+                  Documentation
+                </CardTitle>
+                <CardDescription>
+                  Additional documentation resources for this API.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {api.docs.map((doc) => {
+                    const docId = apiServiceInstance.generateDocumentationId(
+                      doc.name
+                    );
+                    return (
+                      <div
+                        key={docId}
+                        className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50"
+                      >
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <h4 className="font-medium text-sm">{doc.name}</h4>
+                            <Badge variant="outline" className="text-xs">
+                              {doc.provider}
+                            </Badge>
+                          </div>
+                          {doc.description && (
+                            <p className="text-xs text-muted-foreground truncate">
+                              {doc.description}
+                            </p>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-2 ml-4">
+                          <Link href={`/apis/${id}/docs/${docId}`}>
+                            <Button variant="outline" size="sm">
+                              View
+                            </Button>
+                          </Link>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
       </div>
     </div>
