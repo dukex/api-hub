@@ -7,10 +7,22 @@
     "openAPIUrl": "https://api.apis.guru/v2/specs/openpolicy.local/0.28.0/openapi.yaml",
     "docs": [
       {
-        "name": "Changelog",
-        "description": "OpenPolicy changelog",
+        "name": "README",
+        "description": "Open Policy Agent (OPA) is an open source, general-purpose policy engine that enables unified, context-aware policy enforcement across the entire stack.",
+        "provider": "github",
+        "url": "https://github.com/open-policy-agent/opa/blob/main/README.md"
+      },
+      {
+        "name": "CHANGELOG",
+        "description": "All notable changes to this project will be documented in this file.",
         "provider": "github",
         "url": "https://github.com/open-policy-agent/opa/blob/main/CHANGELOG.md"
+      },
+      {
+        "name": "ADOPTERS",
+        "description": "This is a list of organizations that have spoken publicly about their adoption or production users that have added themselves",
+        "provider": "github",
+        "url": "https://github.com/open-policy-agent/opa/blob/main/ADOPTERS.md"
       }
     ]
   },
