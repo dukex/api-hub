@@ -13,8 +13,11 @@
 | Screenshot | |
 |-|-|
 |![image](https://github.com/user-attachments/assets/66a790aa-8333-4c3e-8d98-f4dce978fb60) | Listing your APIs |
-|![image](https://github.com/user-attachments/assets/a974e898-4da1-47d8-b29a-9e1fa777a652) | See API details with userful information about the API |
-|![image](https://github.com/user-attachments/assets/82733dc2-7f35-4aac-ac63-419053631571) | Get the complete API documentation using only OpenAPI spec |
+| ![Screenshot 2025-06-26 at 18 25 24](https://github.com/user-attachments/assets/8b72e05f-78f7-4760-a690-8495467bb979) | Get the complete API documentation using only OpenAPI spec |
+| ![Screenshot 2025-06-26 at 18 25 31](https://github.com/user-attachments/assets/76d27a5b-83d6-44b7-8449-52aacc22d54b) | |
+| ![Screenshot 2025-06-26 at 18 23 43](https://github.com/user-attachments/assets/9e18416b-a3c0-455d-ae43-f6b1978c3b31) | Markown documentation from github |
+| ![Screenshot 2025-06-26 at 18 23 27](https://github.com/user-attachments/assets/1c86d4a6-6516-4486-9b63-301fafcbdef0) | |
+
 
 
 ## 🚀 Quick Start
