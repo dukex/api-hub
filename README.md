@@ -29,7 +29,14 @@
    npm install
    ```
 
-2. **Configure your APIs**:
+2. **Configure environment variables**:
+   Copy the example environment file and set your API keys:
+   ```bash
+   cp .env.example .env
+   # Edit .env and add your GEMINI_API_KEY and GITHUB_TOKEN
+   ```
+
+3. **Configure your APIs**:
    Create `data/apis.json` to add your OpenAPI specifications:
    ```json
    {
@@ -45,12 +52,12 @@
 
 
 
-3. **Start the development server**:
+4. **Start the development server**:
    ```bash
    npm run dev
    ```
 
-4. **Visit your portal**: Open [http://localhost:3000](http://localhost:3000)
+5. **Visit your portal**: Open [http://localhost:3000](http://localhost:3000)
 
 ## 🐳 Docker Usage
 
@@ -70,7 +77,8 @@ APIs are configured in `./data/apis.json`. Each API entry requires:
 - `name`: Display name
 - `team`: Team or organization name
 - `description`: Brief description
-- `openAPIUrl`: URL to your OpenAPI/Swagger specification
+- `openAPIUrl`: URL to your OpenAPI/Swagger specification (supports HTTP/HTTPS URLs or local file paths starting with "/")
+- `supportLink` (optional): URL to team support channel or documentation
 
 ## 🛠️ Development
 
@@ -106,6 +114,7 @@ In your `apis.json` configuration, add a `docs` array to any API:
     "name": "My API",
     "team": "Backend Team",
     "description": "A sample API",
+    "supportLink": "https://myteam.slack.com/channels/api-support",
     "openAPIUrl": "https://api.example.com/openapi.yaml",
     "docs": [
       {
@@ -121,11 +130,75 @@ In your `apis.json` configuration, add a `docs` array to any API:
         "provider": "github"
       }
     ]
+  },
+  "payment-gateway": {
+    "id": "payment-gateway",
+    "name": "Payment Gateway API",
+    "team": "Payments",
+    "description": "Process payments and handle transactions",
+    "openAPIUrl": "/specs/payment-api.yaml",
+    "docs": [
+      {
+        "url": "https://github.com/myorg/payment-docs/blob/main/integration-guide.md",
+        "name": "Integration Guide",
+        "description": "Step-by-step integration instructions",
+        "provider": "github"
+      }
+    ]
   }
 }
 ```
 
 Documentation will be available at `/apis/{api-id}/docs/{doc-id}` where `doc-id` is generated from the documentation name.
+
+## 🚀 Production Deployment
+
+### Environment Variables
+Ensure these environment variables are set in your production environment:
+- `GEMINI_API_KEY`: Required for AI-powered API summarization
+- `GITHUB_TOKEN`: Required for fetching documentation from GitHub repositories
+- `NODE_ENV=production`: Optimizes Next.js for production
+
+### Build and Start
+```bash
+npm run build
+npm start
+```
+
+### Docker Production
+```bash
+docker build -t api-hub .
+docker run -p 3000:3000 -e GEMINI_API_KEY=your_key -e GITHUB_TOKEN=your_token api-hub
+```
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+**APIs not loading or showing errors:**
+- Verify `openAPIUrl` is accessible and returns valid OpenAPI/Swagger JSON or YAML
+- Check CORS settings if using external APIs
+- Ensure the API endpoint is publicly accessible or configure proper authentication
+
+**AI summaries not generating:**
+- Verify `GEMINI_API_KEY` is set and valid
+- Check Google AI API quota and billing status
+- Ensure the OpenAPI specification is properly formatted
+
+**GitHub documentation not loading:**
+- Verify `GITHUB_TOKEN` has proper permissions (repo or public_repo scope)
+- Check that GitHub URLs are properly formatted (supports both blob and raw formats)
+- Ensure repositories are accessible with the provided token
+
+**Docker container not starting:**
+- Verify volume mount path exists: `./examples/specs:/app/data`
+- Ensure `apis.json` file exists in the mounted directory
+- Check container logs: `docker logs <container-id>`
+
+**Local development issues:**
+- Run `npm install` to ensure all dependencies are installed
+- Check that port 3000 is not already in use
+- Verify Node.js version compatibility (requires Node.js 18+)
 
 ## 🎨 Design
 
