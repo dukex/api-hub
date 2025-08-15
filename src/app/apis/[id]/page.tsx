@@ -266,9 +266,11 @@ export default async function ApiDetailPage({ params }: ApiDetailPageProps) {
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
                             <h4 className="font-medium text-sm">{doc.name}</h4>
-                            <Badge variant="outline" className="text-xs">
-                              {doc.provider}
-                            </Badge>
+                            {doc.provider !== "link" && (
+                              <Badge variant="outline" className="text-xs">
+                                {doc.provider}
+                              </Badge>
+                            )}
                           </div>
                           {doc.description && (
                             <p className="text-xs text-muted-foreground truncate">
@@ -277,9 +279,9 @@ export default async function ApiDetailPage({ params }: ApiDetailPageProps) {
                           )}
                         </div>
                         <div className="flex items-center gap-2 ml-4">
-                          <Link href={`/apis/${id}/docs/${docId}`}>
+                          <Link target={doc.provider === "link" ? "_blank" : undefined} href={doc.provider === "link" ? doc.url : `/apis/${id}/docs/${docId}`}>
                             <Button variant="outline" size="sm">
-                              View
+                              {doc.provider === "link" ? <>Open <ExternalLink className="h-4 w-4" /></> : "View"}
                             </Button>
                           </Link>
                         </div>

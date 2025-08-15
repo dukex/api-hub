@@ -11,8 +11,8 @@ export interface APIDocumentation {
   /** Description of what this documentation covers */
   description: string;
 
-  /** Provider of the documentation (currently only 'github' supported) */
-  provider: 'github';
+  /** Provider of the documentation (currently only 'github' and 'link' supported) */
+  provider: 'github' | 'link';
 }
 
 /**
