@@ -45,7 +45,7 @@
     "dotenv": "^16.5.0",
     "geist": "^1.4.2",
     "genkit": "^1.8.0",
-    "js-yaml": "^4.1.0",
+    "js-yaml": "^4.1.1",
     "lucide-react": "^0.475.0",
     "next": "^15.3.4",
     "patch-package": "^8.0.0",
